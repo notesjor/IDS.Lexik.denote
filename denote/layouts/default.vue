@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app dark class="d-print-none" style="z-index: 999">
       <div>
-        <a :href="leftIconHref" target="_blank">
+        <a href="https://www.owid.de/plus/" target="_blank">
           <img alt="Logo" height="40px" src="/logo/logo_left.svg" />
         </a>
       </div>
@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
 
       <div>
-        <a :href="rightIconHref" target="_blank">
+        <a href="https://www.ids-mannheim.de/" target="_blank">
           <img alt="Logo" height="70px" src="/logo/logo_right.svg" />
         </a>
       </div>
@@ -20,7 +20,7 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer padless>
+    <v-footer padless dark>
       <v-card class="flex" flat tile>
         <v-card-text class="py-2" style="text-align: right">
           <div style="display: inline-block">

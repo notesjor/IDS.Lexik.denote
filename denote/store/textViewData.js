@@ -1,12 +1,23 @@
 export const state = () => ({
   data: {
-    text: "Hello world, this is a test",
-    highlight: ["test", "world"]
+    tokens: [],
+    highlight: {"ist": "#f00", "Test": "#00f"},
   }
 });
+
 export const mutations = {
-  select_meta_diathesis(state, data) {
-    state.selected.meta_diathesis = data;
-    state.results = search(state.selected, state.data);
+  text_set(state, text) {
+    var replacements = ['.', '!', '?', ':', ';', ','];
+    text = text.toString();
+    for (var i = 0; i < replacements.length; i++) {
+      text = text.replace(replacements[i], ` ${replacements[i]} `);
+    }
+    state.data.tokens = text.toString().split(" ");
   },
-};
+  token_set(state, token) {
+    state.data.token = token;
+  }, 
+  highlight_set(state, highlight) {
+    state.data.highlight = highlight;
+  }
+}

@@ -1,32 +1,34 @@
 <template>
   <p>
-    {{ this.$store.state.textViewData.data.text }}
+    <Token v-for="(x,i) in tokens" :key="i" :text="x"/>
   </p>
 </template>
 
 <script>
+import Token from './Token.vue'
+
 export default {
+  components: {
+    Token,
+  },
   data () {
     return {
-      text: '',
+      tokens: [],
     }
   },
-  computed: {
-    textViewData () {
-      return this.$store.state.textViewData
-    },
-  },
   methods: {
-    updateText () {
-      this.text = this.textViewData.text
+    updateTokens () {
+      this.tokens = this.$store.state.textViewData.data.tokens
     },
   },
   created () {
-    this.updateText()
+    this.$store.commit("textViewData/text_set", "Dies ist ein einfacher, verschachtelter; Test.")
+
+    this.updateTokens()
   },
   watch: {
     textViewData: {
-      handler: 'updateText',
+      handler: 'updateTokens',
       deep: true,
     },
   },

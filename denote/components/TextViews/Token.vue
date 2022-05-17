@@ -1,6 +1,7 @@
 <template>
   <span class="token" :style="cssVars">
-    {{ this.text }}
+    <div class="txt">{{ this.text }}</div>
+    <div class="lbl">{{ this.info }}</div>
   </span>
 </template>
 
@@ -9,6 +10,7 @@ export default {
   data() {
     return {
       color: "000",
+      info:"---"
     };
   },
   props: ["text", "highlight"],
@@ -33,5 +35,18 @@ export default {
 <style lang="scss">
 .token {
   color: var(--token-color);
+  display:inline-block;
+}
+.txt{
+  display: inline-block;
+  position: relative;
+  margin: 2px 5px 0 5px;
+}
+.lbl{
+  display: block;
+  position: relative;
+  margin: -15 0 0 0;
+  text-align: center;
+  font-size: 0.6em;
 }
 </style>

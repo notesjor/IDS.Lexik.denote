@@ -10,7 +10,7 @@ export default {
   data() {
     return {
       color: "000",
-      info:"---"
+      info:"info"
     };
   },
   props: ["text", "highlight"],

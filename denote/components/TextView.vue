@@ -1,4 +1,5 @@
 <template>
+<v-card>
   <v-tabs vertical>
       <v-tab>
         <v-icon left>
@@ -23,7 +24,8 @@
         <TextViewHighlight/>
       </v-tab-item>
       <v-tab-item>
-        <TextViewKwic/>
+        <TextViewKwic/>        
         </v-tab-item>
     </v-tabs>
+ </v-card> 
 </template>

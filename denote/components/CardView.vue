@@ -11,34 +11,28 @@
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
     </v-toolbar>
-      <v-list three-line class="light">
-        <template v-for="(item, index) in items">
-          <v-subheader
-            v-if="item.header"
-            :key="item.header"
-            v-text="item.header"
-          ></v-subheader>
-
-          <v-divider
-            v-else-if="item.divider"
-            :key="index"
-            inset="true"
-          ></v-divider>
-
-          <v-list-item v-else :key="item.title">
-            <v-list-item-icon>
+    <v-list three-line class="light">
+      <template v-for="item in items">
+        <v-subheader
+          v-if="item.header"
+          :key="item.header"
+          v-text="item.header"
+        ></v-subheader>
+        <v-list-item v-else :key="item.title">
+          <v-card>
+            <span :style="{'display':'inline-block', 'height': '100%', 'background-color': item.color === undefined ? '#fff': item.color}">&nbsp;</span>
+            <span style="display:inline-block">
               <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title v-html="item.title"></v-list-item-title>
-              <v-list-item-subtitle
-                v-html="item.subtitle"
-              ></v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </v-list>
+              <v-icon>{{ item.icon }}</v-icon>
+            </span>
+            <span style="display:inline-block">
+              {{item.title}}
+              {{item.subtitle}}
+            </span>
+          </v-card>
+        </v-list-item>
+      </template>
+    </v-list>
   </v-card>
 </template>
 
@@ -58,21 +52,19 @@ export default {
         icon: "mdi-magnify",
         title: "Brunch this weekend?",
         subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
+        color: "#f00",
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
         subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: "Oui oui",
         subtitle:
           '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
       },
-      { divider: true, inset: true },
       { header: "Today" },
       {
         icon: "mdi-magnify",
@@ -80,21 +72,18 @@ export default {
         subtitle:
           '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: "Recipe to try",
         subtitle:
           '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: "Oui oui",
         subtitle:
           '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
       },
-      { divider: true, inset: true },
       { header: "Today" },
       {
         icon: "mdi-magnify",
@@ -102,7 +91,6 @@ export default {
         subtitle:
           '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: "Recipe to try",
@@ -115,20 +103,17 @@ export default {
         title: "Brunch this weekend?",
         subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
         subtitle: `<span class="text--primary">to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend.`,
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: "Oui oui",
         subtitle:
           '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
       },
-      { divider: true, inset: true },
       { header: "Today" },
       {
         icon: "mdi-magnify",
@@ -136,21 +121,18 @@ export default {
         subtitle:
           '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: "Recipe to try",
         subtitle:
           '<span class="text--primary">Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: "Oui oui",
         subtitle:
           '<span class="text--primary">Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?',
       },
-      { divider: true, inset: true },
       { header: "Today" },
       {
         icon: "mdi-magnify",
@@ -158,7 +140,6 @@ export default {
         subtitle:
           '<span class="text--primary">Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?',
       },
-      { divider: true, inset: true },
       {
         icon: "mdi-magnify",
         title: "Recipe to try",

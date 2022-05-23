@@ -19,16 +19,29 @@
           v-text="item.header"
         ></v-subheader>
         <v-list-item v-else :key="item.title">
-          <v-card>
-            <span :style="{'display':'inline-block', 'height': '100%', 'background-color': item.color === undefined ? '#fff': item.color}">&nbsp;</span>
-            <span style="display:inline-block">
-              <v-icon>{{ item.icon }}</v-icon>
-              <v-icon>{{ item.icon }}</v-icon>
+          <v-card style="margin-bottom: 10px">
+            <div>
+              <span style="float:left; display:block">
+              <span
+                :style="{
+                  display: 'inline-block',
+                  height: '50%',
+                  'background-color':
+                    item.color === undefined ? '#fff' : item.color,
+                }"
+                >&nbsp;</span
+              >
+              <span style="display: inline-block">
+                <v-icon style="display: inline-block">{{ item.icon }}</v-icon>
+              </span>
             </span>
-            <span style="display:inline-block">
-              {{item.title}}
-              {{item.subtitle}}
+            <span style="display: inline; font-weight: bold;">
+              {{ item.title }}
             </span>
+            </div>
+            <div style="font-weight: 300; margin:10px">
+              {{ item.subtitle }}
+            </div>
           </v-card>
         </v-list-item>
       </template>

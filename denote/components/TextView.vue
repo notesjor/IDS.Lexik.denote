@@ -8,7 +8,7 @@
       </v-tab>
       <v-tab>
         <v-icon left>
-          mdi-message-bookmark
+          mdi-message-bookmark-outline
         </v-icon>
       </v-tab>
       <v-tab>

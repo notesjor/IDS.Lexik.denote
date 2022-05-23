@@ -35,6 +35,7 @@
         <Editor/>
         </v-col>
     </v-row>
+    <Info/>
     <v-row>
       <v-col>
         <v-textarea

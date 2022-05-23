@@ -18,7 +18,7 @@
       </v-tab>
 
       <v-tab-item>
-        Schema
+        <AnnotationSchema/> 
       </v-tab-item>
       <v-tab-item>
         Annotation
@@ -29,3 +29,14 @@
     </v-tabs>
     </v-card>
 </template>
+
+<script>
+import AnnotationSchema from './DetailViews/AnnotationSchema.vue'
+
+
+export default {
+  components: {
+    AnnotationSchema,
+  }
+}
+</script>

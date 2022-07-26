@@ -40,7 +40,7 @@ export default {
     },
   },
   created () {
-    this.$store.commit("textViewData/text_set", "Dies ist ein einfacher, verschachtelter; Test.");
+    this.$store.commit("textViewData/text_set", "Das ist ein Beispiel für Ivan.");
 
     this.updateTokens()
   },

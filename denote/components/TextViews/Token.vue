@@ -1,7 +1,7 @@
 <template>
   <span class="token" :style="cssVars">
     <div class="txt">{{ this.text }}</div>
-    <div class="lbl">{{ this.info }}</div>
+    <div class="lbl" @click="printInfo()">{{ this.info }}</div>
   </span>
 </template>
 
@@ -29,6 +29,11 @@ export default {
         };
     },
   },
+  methods:{
+    printInfo(){
+      alert("test");
+    }
+  }
 };
 </script>
 

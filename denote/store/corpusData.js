@@ -1,7 +1,7 @@
 export const state = () => ({
   data: {
     tokens: [],
-    highlight: {"ist": "green", "Test": "#00f"},
+    highlight: {"ist": "#f00", "Test": "#00f"},
   }
 });
 

@@ -63,7 +63,7 @@ export default {
       { header: "Today" },
       {
         icon: "mdi-magnify",
-        title: "Brunch this weekend?",
+        title: "Verb annotieren",
         subtitle: `<span class="text--primary">Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
         color: "#f00",
       },

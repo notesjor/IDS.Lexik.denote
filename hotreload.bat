@@ -1,3 +1,3 @@
 @ECHO OFF
-cd C:\Projekte\IDS\IDS.Lexik.denote\denote\
+cd denote
 npm run dev

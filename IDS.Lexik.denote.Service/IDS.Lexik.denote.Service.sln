@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.Lexik.denote.Service", "IDS.Lexik.denote.Service.csproj", "{FFC4E4BE-70F1-4A35-BA46-954C2F7B02E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFRES", "..\..\..\..\Projekte-Kooperation\TfresWebserver\TefresWebserver\TFRES.csproj", "{63F6B9F6-FF80-4764-BD45-109D549BF459}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.Lexik.denote.Sdk", "..\IDS.Lexik.denote.Sdk\IDS.Lexik.denote.Sdk.csproj", "{27E63224-DF19-4B0C-B160-12130DB473CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug (Linux)|Any CPU = Debug (Linux)|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFC4E4BE-70F1-4A35-BA46-954C2F7B02E6}.Debug (Linux)|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC4E4BE-70F1-4A35-BA46-954C2F7B02E6}.Debug (Linux)|Any CPU.Build.0 = Debug|Any CPU
+		{FFC4E4BE-70F1-4A35-BA46-954C2F7B02E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC4E4BE-70F1-4A35-BA46-954C2F7B02E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFC4E4BE-70F1-4A35-BA46-954C2F7B02E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFC4E4BE-70F1-4A35-BA46-954C2F7B02E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63F6B9F6-FF80-4764-BD45-109D549BF459}.Debug (Linux)|Any CPU.ActiveCfg = Debug (Linux)|Any CPU
+		{63F6B9F6-FF80-4764-BD45-109D549BF459}.Debug (Linux)|Any CPU.Build.0 = Debug (Linux)|Any CPU
+		{63F6B9F6-FF80-4764-BD45-109D549BF459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63F6B9F6-FF80-4764-BD45-109D549BF459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63F6B9F6-FF80-4764-BD45-109D549BF459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63F6B9F6-FF80-4764-BD45-109D549BF459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27E63224-DF19-4B0C-B160-12130DB473CD}.Debug (Linux)|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E63224-DF19-4B0C-B160-12130DB473CD}.Debug (Linux)|Any CPU.Build.0 = Debug|Any CPU
+		{27E63224-DF19-4B0C-B160-12130DB473CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27E63224-DF19-4B0C-B160-12130DB473CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27E63224-DF19-4B0C-B160-12130DB473CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27E63224-DF19-4B0C-B160-12130DB473CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23894F5D-9E1F-46C1-B33D-3518A58905A1}
+	EndGlobalSection
+EndGlobal

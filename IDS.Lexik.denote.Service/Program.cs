@@ -1,4 +1,5 @@
-﻿using IDS.Lexik.denote.Sdk.Model.Message.Document;
+﻿using System.Net;
+using IDS.Lexik.denote.Service.Helper;
 using Newtonsoft.Json;
 using Tfres;
 
@@ -8,61 +9,144 @@ namespace IDS.Lexik.denote.Service
   {
     static void Main(string[] args)
     {
-      var server = new Server("*", 48818, (ctx)=>ctx.Response.Send(200));
-      server.AddEndpoint(HttpMethod.Post, "/getDocuments", GetDocumentList);
-      server.AddEndpoint(HttpMethod.Post, "/getLayers", GetLayerList);
-      server.AddEndpoint(HttpMethod.Post, "/getLayer", GetLayerInfo);
-      server.AddEndpoint(HttpMethod.Post, "/setLayer", SetLayerInfo);
-      server.AddEndpoint(HttpMethod.Post, "/getDocument", GetDocument);
-      server.AddEndpoint(HttpMethod.Post, "/setDocument", SetDocument);
-      server.AddEndpoint(HttpMethod.Post, "/getDocumentMeta", GetDocumentMeta);
-      server.AddEndpoint(HttpMethod.Post, "/setDocumentMeta", SetDocumentMeta);
+      if (!CorpusServer.IsReady())
+        return;
 
-      while(true)
+      var server = new Server("*", 48818, (ctx) => ctx.Response.Send(200));
+      server.AddEndpoint(HttpMethod.Get, "/document", GetDocument);
+      server.AddEndpoint(HttpMethod.Post, "/document", SetDocument);
+      server.AddEndpoint(HttpMethod.Get, "/layer", GetLayer);
+      server.AddEndpoint(HttpMethod.Post, "/layer", SetLayer);
+      server.AddEndpoint(HttpMethod.Get, "/meta", GetDocumentMeta);
+      server.AddEndpoint(HttpMethod.Post, "/meta", SetDocumentMeta);
+
+      while (true)
         Thread.Sleep(29000);
-    }
-
-    private static void GetDocumentMeta(HttpContext ctx)
-      => ctx.Response.Send(
-        File.ReadAllText($"data/{ctx.Request.PostData<GetDocumentMetaMessage>().DocumentGuid:N}/doc.meta.json"));
-
-    private static void SetDocumentMeta(HttpContext ctx)
-    {
-      var data = ctx.Request.PostData<SetDocumentMetaMessage>();
-      File.WriteAllText(
-        $"data/{data.DocumentGuid:N}/doc.meta.json", 
-        JsonConvert.SerializeObject(data.Payload));
-    }
-
-    private static void SetDocument(HttpContext ctx)
-    {
-      var data = ctx.Request.PostData<SetDocumentMessage>();
-      File.WriteAllText(
-        $"data/{data.DocumentGuid:N}/{data.LayerGuid:N}/doc.data.json",
-        JsonConvert.SerializeObject(data.Payload));
     }
 
     private static void GetDocument(HttpContext ctx)
     {
-      var data = ctx.Request.PostData<GetDocumentMessage>();
-      ctx.Response.Send(
-        File.ReadAllText($"data/{data.DocumentGuid:N}/{data.LayerGuid:N}/doc.data.json"));
+      var data = ctx.Request.GetData();
+
+      switch (data.Count)
+      {
+        // GET ohne Parameter
+        case 0:
+          ctx.Response.Send(File.ReadAllText("data/doc.index.json"));
+          return;
+        // GET mit Parameter Document
+        case 1:
+          {
+            var document = Guid.Parse(data["id"]);
+
+            var res = new Dictionary<string, string[][]>();
+            var files = Directory.GetFiles($"data/{document:N}/", "doc.data.json", SearchOption.AllDirectories);
+            foreach(var file in files)
+            {
+              var layer = Path.GetFileName(Path.GetDirectoryName(file));
+              var content = JsonConvert.DeserializeObject<string[][]>(File.ReadAllText(file));
+              res.Add(layer, content);
+            }
+
+            ctx.Response.Send(res);
+            return;
+          }
+        default:
+          ctx.Response.Send(HttpStatusCode.BadRequest);
+          break;
+      }
     }
 
-    private static void SetLayerInfo(HttpContext ctx)
+    private static void SetDocument(HttpContext ctx)
     {
-      
+      var data = ctx.Request.GetData();
+      var document = Guid.Parse(data["id"]);
+
+      var content = JsonConvert.DeserializeObject<Dictionary<string, string[][]>>(ctx.Request.PostDataAsString);
+      if(content == null)
+      {
+        ctx.Response.Send(HttpStatusCode.BadRequest);
+        return;
+      }
+
+      foreach (var layer in content)
+      {
+        var path = $"data/{document:N}/{layer.Key}";
+        if (!Directory.Exists(path))
+          Directory.CreateDirectory(path);
+
+        File.WriteAllText($"{path}/doc.data.json", JsonConvert.SerializeObject(layer.Value));
+      }
+
+      ctx.Response.Send(HttpStatusCode.OK);
     }
 
-    private static void GetLayerInfo(HttpContext ctx)
+    private static void GetLayer(HttpContext ctx)
     {
-      
+      var data = ctx.Request.GetData();
+
+      switch (data.Count)
+      {
+        // GET ohne Parameter
+        case 0:
+          ctx.Response.Send(File.ReadAllText("data/layer.index.json"));
+          return;
+        // GET mit Parameter Layer
+        case 1:
+          {
+            var layer = Guid.Parse(data["id"]);
+
+            ctx.Response.Send(File.ReadAllText($"data/layer/{layer:N}.json"));
+            return;
+          }
+        default:
+          ctx.Response.Send(HttpStatusCode.BadRequest);
+          break;
+      }
     }
 
-    private static void GetDocumentList(HttpContext ctx) 
-      => ctx.Response.Send(File.ReadAllText("data/doc.index.json"));
+    private static void SetLayer(HttpContext ctx)
+    {
+      var data = ctx.Request.GetData();
+      var layer = Guid.Parse(data["id"]);
 
-    private static void GetLayerList(HttpContext ctx)
-      => ctx.Response.Send(File.ReadAllText("data/layer.index.json"));
+      File.WriteAllText(
+        $"data/layer/{layer:N}.json",
+        JsonConvert.SerializeObject(ctx.Request.PostDataAsString));
+      
+      ctx.Response.Send(HttpStatusCode.OK);
+    }
+
+    private static void GetDocumentMeta(HttpContext ctx)
+    {
+      var data = ctx.Request.GetData();
+
+      switch (data.Count)
+      {
+        // POST mit Parameter Document
+        case 1:
+          {
+            var document = Guid.Parse(data["id"]);
+
+            ctx.Response.Send(File.ReadAllText($"data/{document:N}/doc.meta.json"));
+            return;
+          }
+        default:
+          ctx.Response.Send(HttpStatusCode.BadRequest);
+          break;
+      }
+    }
+
+    private static void SetDocumentMeta(HttpContext ctx)
+    {
+      var data = ctx.Request.GetData();
+      var document = Guid.Parse(data["id"]);
+
+      File.WriteAllText(
+        $"data/{document:N}/doc.meta.json",
+        ctx.Request.PostDataAsString);
+
+      ctx.Response.Send(HttpStatusCode.OK);
+    }
   }
 }

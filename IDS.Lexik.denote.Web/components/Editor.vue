@@ -1,14 +1,12 @@
 <template>
-    <div>{{ documentId }}</div>
-    <br /><br />
-    <strong>{{ layerInfoEditor }}</strong>
-    <br /><br />
-    <p>{{ layerInfo }}</p>
-    <br /><br />
-    <i>{{ document }}</i>
+    <div>
+        <Token v-for="t in documentTokens" :key="t.id" :token="t"></Token>
+    </div>
 </template>
 
 <script>
+import { STATEMENT_OR_BLOCK_KEYS } from '@babel/types';
+
 function getLayers(self) {
     var requestOptions = {
         method: 'GET',
@@ -17,15 +15,13 @@ function getLayers(self) {
 
     fetch("https://www.owid.de/api/denote/layer", requestOptions)
         .then(response => response.json())
-        .then(result => self.$data.layers = result)
+        .then(result => self.$data.layerNames = result)
         .then(() => {
-            for (var key in self.$data.layers) {
-                getLayer(self, key);
+            for (var id in self.$data.layerNames) {
+                getLayer(self, id);
             }
         })
-        .then(() => {
-            prepareLayers(self);
-        })
+        .then(() => prepareLayers(self))
         .catch(error => console.log('error', error));
 }
 
@@ -42,37 +38,46 @@ function getLayer(self, id) {
 }
 
 function prepareLayers(self) {
-    var res = {};
-    console.log(self.$data.layers);
-    console.log(self.$data.layers["97ae87a647724f1e8ea7856da2622e64"]);
-    for (var key in self.$data.layers) {
-        var layer = { name: self.$data.layers[key] };
+    // TODO: Notfall
+    self.layerInfo = {
+        "97ae87a647724f1e8ea7856da2622e64": { "type": "ORIGINAL", "isReadOnly": true, "position": 0 },
+        "97458e2c75e44ab0940c35302ffbf2a7": { "type": "text", "position": 1 },
+        "5e751af3f3e74543848aa13d9edf28fc": { "type": "tags", "values": ['Name', 'Ort', 'Zahl', 'Zeitpunkt', 'Gruppe'], "position": 2 }
+    };
 
-        var type = self.$data.layerInfo[key].$type;
-        
-        // simplyfy typename
-        type = type.replace("IDS.Lexik.denote.Sdk.Model.Layer.Layer", "");
-        type = type.replace(", IDS.Lexik.denote.Sdk", "");
-        layer["$type"] = type;
+    var res = [];
+    for (var key in self.layerNames) {
+        var layer = { name: self.layerNames[key] };
+
+        var type = self.layerInfo[key].type;
+        layer["type"] = type;
+        layer["id"] = key;
+        layer["position"] = self.layerInfo[key].position;
 
         switch (type) {
-            case "FreeText":
-                break;   
-            case "Tags":
-                layer["$values"] = self.$data.layerInfo[key].$values;
+            case "text":
                 break;
-            case "Original":
-                break;     
+            case "tags":
+                layer["values"] = self.$data.layerInfo[key].values;
+                break;
+            case "ORIGINAL":
+                layer["isReadOnly"] = true;
+                break;
             default:
-                break;        
+                break;
         }
-console.log(key);
-console.log(layer);
-console.log(res);
-        res[key] = layer;
+
+        res.push(layer);
     }
 
-    self.$data.layerInfoEditor = res;
+    self.$data.layerInfoEditor = res.sort((a, b) => a.position - b.position);     
+    // create dictionary for res.key -> res index
+    self.$data.layerInfoEditorResolve = self.$data.layerInfoEditor.reduce((obj, item, index) => {
+        obj[item.id] = index;
+        return obj;
+    }, {});
+
+    console.log(self.$data.layerInfoEditorResolve);
 }
 
 function getDocument(self, id) {
@@ -88,7 +93,34 @@ function getDocument(self, id) {
         .catch(error => console.log('error', error));
 }
 function prepareDocument(self) {
+    var layerKey = Object.keys(self.layerNames).find(key => self.layerNames[key] === "ORIGINAL");
+    if (layerKey === undefined)
+        layerKey = Object.keys(self.layerNames).find(key => self.layerNames[key] === "Wort");
+    if (layerKey === undefined)
+        layerKey = Object.keys(self.layerNames)[0];
 
+    var lead = self.document[layerKey];
+    if (lead === undefined)
+        throw new Error("No document found for layer " + layerKey);
+
+    var id = 0;
+    var tokens = [];
+    for (let s = 0; s < lead.length; s++)
+        for (let w = 0; w < lead[s].length; w++) {
+            var token = { id: id++, s: s, w: w, values: {} }
+            for (let l in self.layerInfoEditor)
+                {
+                    var guid = self.layerInfoEditor[l].id;
+                    token.values[guid] = { 
+                        layer: self.layerInfoEditor[self.layerInfoEditorResolve[guid]], 
+                        value: self.document[guid][s][w], 
+                    }
+                }
+            tokens.push(token);
+        }
+
+    self.documentTokens = tokens;
+    console.log(self.documentTokens);
 }
 
 export default {
@@ -101,10 +133,12 @@ export default {
 
     data() {
         return {
-            layers: [],
-            layerInfo: {},
-            layerInfoEditor: {},
-            document: {},
+            layerNames: [], // layer id -> layer name
+            layerInfo: {}, // layer id -> layer info
+            layerInfoEditor: [], // layerInfo specialized for editor
+            layerInfoEditorResolve: {}, // layer id -> layerInfoEditor index
+            document: {}, // current document
+            documentTokens: [], // current document tokens (for editor)
         };
     },
 

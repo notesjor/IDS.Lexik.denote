@@ -3,6 +3,7 @@
     <v-card outlined>
       <v-card-text>
         <v-combobox label="Bitte Text auswählen..." :items="docs" item-title="value" v-model="docSelected"></v-combobox>
+        <br/>
         <Editor :documentId="docSelected.key"></Editor>
       </v-card-text>
     </v-card>

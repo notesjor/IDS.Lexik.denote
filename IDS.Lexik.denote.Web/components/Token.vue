@@ -1,13 +1,14 @@
 <template>
-  <span class="token" :style="cssVars">
+  <span class="token">
     <span class="lbl" v-for="v in token.values" :key="v">
       <div v-if="v.layer.type == 'ORIGINAL'" style="font-size:0.8em; margin:0 20px 0 20px">{{ v.value }}</div>
       <div v-else-if="v.layer.type == 'text'">
         <v-text-field v-model="v.value" variant="outlined" style="margin-bottom:5px"></v-text-field>
       </div>
       <div v-else-if="v.layer.type == 'tags'">
-        <v-autocomplete v-model="v.value" :items="v.layer.values" tabindex="-1" dense
-          style="margin-bottom:5px"></v-autocomplete>
+        <!--<v-autocomplete v-model="v.value" :items="v.layer.values" tabindex="-1" dense
+          style="margin-bottom:5px"></v-autocomplete>-->
+          <Tag :items="v.layer.values" tabindex="-1" :value="v.value"></Tag>
       </div>
     </span>
     <!--

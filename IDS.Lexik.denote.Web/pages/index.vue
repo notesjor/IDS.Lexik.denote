@@ -1,12 +1,8 @@
 <template>
   <div>
-    <v-card outlined>
-      <v-card-text>
-        <v-combobox label="Bitte Text auswählen..." :items="docs" item-title="value" v-model="docSelected"></v-combobox>
-        <br/>
-        <Editor :documentId="docSelected.key"></Editor>
-      </v-card-text>
-    </v-card>
+    <v-combobox label="Bitte Text auswählen..." :items="docs" item-title="value" v-model="docSelected" class="elevation-5" style="padding:5px"></v-combobox>
+    <br/>
+    <Editor :documentId="docSelected.key" class="elevation-5" style="padding:10px"></Editor>
   </div>
 </template>
 

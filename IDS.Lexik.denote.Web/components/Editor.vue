@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { STATEMENT_OR_BLOCK_KEYS } from '@babel/types';
-
 function getLayers(self) {
     var requestOptions = {
         method: 'GET',

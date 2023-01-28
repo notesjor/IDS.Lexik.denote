@@ -6,7 +6,7 @@ namespace IDS.Lexik.denote.Sdk.Helper
   {
     private static readonly JsonSerializerSettings _settings = new JsonSerializerSettings
     {
-      TypeNameHandling = TypeNameHandling.All,
+      TypeNameHandling = TypeNameHandling.None,
       Formatting = Formatting.Indented,
       NullValueHandling = NullValueHandling.Ignore,
       DefaultValueHandling = DefaultValueHandling.Ignore,

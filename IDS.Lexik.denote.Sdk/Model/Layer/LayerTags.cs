@@ -1,17 +1,20 @@
 ﻿using IDS.Lexik.denote.Sdk.Model.Layer.Abstract;
+using Newtonsoft.Json;
 
 namespace IDS.Lexik.denote.Sdk.Model.Layer;
 
 public class LayerTags : AbstractLayer
 {
+  public override string Type { get; } = "tags";
   public override bool IsReadOnly { get; set; } = false;
+  [JsonProperty("values")]
   public List<string> Values { get; set; } = new List<string>();
+  
 
-  public static LayerTags GetSttsLayer(Guid guid, string name = "POS")
+  public static LayerTags GetSttsLayer(string name = "POS")
   {
     return new LayerTags
     {
-      Guid = guid,
       Values = new List<string>
       {
         "NN", "NE", "ADJA", "ADJD", "CARD", "VMFIN", "VAFIN", 

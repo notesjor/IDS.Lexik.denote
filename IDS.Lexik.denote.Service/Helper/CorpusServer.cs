@@ -32,19 +32,19 @@ public static class CorpusServer
         switch (layer.Value)
         {
           case "Wort":
-            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(new LayerFreeText { Guid = guid }));
+            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(new LayerFreeText()));
             break;
           case "Lemma":
-            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(new LayerFreeText { Guid = guid }));
+            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(new LayerFreeText()));
             break;
           case "POS":
-            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(LayerTags.GetSttsLayer(guid)));
+            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(LayerTags.GetSttsLayer()));
             break;
           case "TAG":
-            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(new LayerTags { Guid = guid }));
+            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(new LayerTags()));
             break;
           case "ORIGINAL":
-            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(new LayerOriginal { Guid = guid }));
+            File.WriteAllText($"data/layer/{layer.Key}.json", SerializationHelper.Serialize(new LayerOriginal()));
             break;
         }
       }

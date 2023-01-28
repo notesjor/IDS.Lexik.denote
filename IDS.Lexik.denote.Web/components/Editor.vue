@@ -1,6 +1,8 @@
 <template>
     <div>
-        <Token v-for="t in documentTokens" :key="t.id" :token="t"></Token>
+        <v-lazy v-for="t in documentTokens" :key="t.id" style="display:inline-block">
+            <Token :token="t"></Token>
+        </v-lazy>
     </div>
 </template>
 
